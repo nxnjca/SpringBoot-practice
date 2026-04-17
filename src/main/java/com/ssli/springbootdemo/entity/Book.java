@@ -5,14 +5,17 @@ import lombok.Data;
 
 @Data
 public class Book {
+    private Long id;
     private String name;
     private Double price;
 
     public Book() {
     }
 
-    public Book(String name, double v) {
+    public Book(Long id,String name, double v) {
+        setId(id);
         setName(name);
         setPrice(v);
+
     }
 }
