@@ -1,11 +1,20 @@
 package com.ssli.springbootdemo.controller;
 
 import com.ssli.springbootdemo.entity.Book;
+import com.ssli.springbootdemo.service.BookService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/book")
-public class BokkController {
+public class BookController {
+
+    private final BookService bookService;
+
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
+    }
+
+
     @GetMapping("/hello")
     public String hello() {
         return "hello book";
@@ -25,7 +34,7 @@ public class BokkController {
 
     @PostMapping("create")
     public Book create(@RequestBody Book book) {
-        return book;
+        return bookService.createBook(book);
     }
 
     @GetMapping("query")
@@ -37,7 +46,7 @@ public class BokkController {
 
     @GetMapping("query/{id}")
     public Book queryById(@PathVariable Long id) {
-        return new Book(id, "java", 100.0);
+        return bookService.getBookById(id);
 
     }
 
