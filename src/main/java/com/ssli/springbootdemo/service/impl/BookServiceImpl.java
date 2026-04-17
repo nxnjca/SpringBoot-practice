@@ -1,6 +1,7 @@
 package com.ssli.springbootdemo.service.impl;
 
 import com.ssli.springbootdemo.entity.Book;
+import com.ssli.springbootdemo.exception.BusinessException;
 import com.ssli.springbootdemo.service.BookService;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book createBook(Book book) {
         if(book.getName()==null || book.getName().isBlank()){
-            throw new RuntimeException("book name is null");
+            throw new BusinessException(400,"book name is null");
         }
         return book;
     }

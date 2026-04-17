@@ -25,12 +25,7 @@ public class BookController {
 
     @PostMapping("create")
     public Result<Book> create(@RequestBody Book book) {
-        Book book1;
-        try {
-            book1 = bookService.createBook(book);
-        } catch (Exception e) {
-            return Result.fail(400,e.getMessage());
-        }
+        Book book1 = bookService.createBook(book);
         return Result.success("创建成功",book1);
     }
 
