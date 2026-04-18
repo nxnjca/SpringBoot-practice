@@ -28,15 +28,27 @@ public class BookController {
 
     @PostMapping("/create")
     public Result<BookVO> create(@Valid @RequestBody BookCreateDTO dto) {
-        Book book = bookService.createBook(dto);
-        BookVO vo = new BookVO(book.getId(),book.getName(),book.getPrice() + "元");
-        return Result.success("创建成功",vo);
+
+        Book book = new Book();
+        book.setName(dto.getName());
+        book.setPrice(dto.getPrice());
+
+        Book createdBook = bookService.createBook(book);
+
+        BookVO vo = new BookVO(
+                createdBook.getId(),
+                createdBook.getName(),
+                createdBook.getPrice() + "元"
+        );
+
+        return Result.success("创建成功", vo);
     }
 
     @GetMapping("/query/{id}")
-    public Result<Book> queryById(@PathVariable Long id) {
+    public Result<BookVO> queryById(@PathVariable Long id) {
         Book book =  bookService.getBookById(id);
-        return Result.success(book);
+        BookVO vo = new BookVO(book.getId(), book.getName(), book.getPrice() + "元");
+        return Result.success(vo);
 
     }
 
