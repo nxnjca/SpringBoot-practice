@@ -17,5 +17,18 @@
         insert into book(name, price)
         values (#{name}, #{price})
     </insert>
+
+    <delete id="deleteById">
+        delete
+        from book
+        where id = #{id}
+    </delete>
+
+    <update id="updateById">
+        update book
+        set name = #{name},
+        price = #{price}
+        where id = #{id}
+    </update>
 </mapper>
 

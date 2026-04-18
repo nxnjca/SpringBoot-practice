@@ -7,4 +7,8 @@ public interface BookService {
     Book getBookById(Long id);
 
     Book createBook(Book book);
+
+    Book updateBook(Book book);
+
+    void deleteBookById(Long id);
 }

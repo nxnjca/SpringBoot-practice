@@ -8,4 +8,8 @@ public interface BookMapper {
     Book selectById(Long id);
     Book selectByName(String name);
     int insert(Book book);
+
+    int deleteById(Long id);
+
+    int updateById(Book book);
 }

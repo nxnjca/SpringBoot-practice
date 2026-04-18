@@ -2,6 +2,7 @@ package com.ssli.springbootdemo.controller;
 
 import com.ssli.springbootdemo.common.Result;
 import com.ssli.springbootdemo.dto.BookCreateDTO;
+import com.ssli.springbootdemo.dto.BookUpdateDTO;
 import com.ssli.springbootdemo.entity.Book;
 import com.ssli.springbootdemo.service.BookService;
 import com.ssli.springbootdemo.vo.BookVO;
@@ -38,6 +39,26 @@ public class BookController {
         return Result.success("创建成功", vo);
     }
 
+    @PutMapping("/update/{id}")
+    public Result<BookVO> updateById(@PathVariable Long id,
+                                     @Valid @RequestBody BookUpdateDTO dto) {
+        Book book = new Book();
+        book.setId(id);
+        book.setName(dto.getName());
+        book.setPrice(dto.getPrice());
+
+        Book updatedBook = bookService.updateBook(book);
+        BookVO vo = toVO(updatedBook);
+
+        return Result.success("修改成功", vo);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public Result<Void> deleteById(@PathVariable Long id) {
+        bookService.deleteBookById(id);
+        return Result.success("删除成功", null);
+    }
+
     @GetMapping("/query/{id}")
     public Result<BookVO> queryById(@PathVariable Long id) {
         Book book =  bookService.getBookById(id);
@@ -48,6 +69,14 @@ public class BookController {
 
     private Book toEntity(BookCreateDTO dto) {
         Book book = new Book();
+        book.setName(dto.getName());
+        book.setPrice(dto.getPrice());
+        return book;
+    }
+
+    private Book toEntity(Long id,BookUpdateDTO dto) {
+        Book book = new Book();
+        book.setId(id);
         book.setName(dto.getName());
         book.setPrice(dto.getPrice());
         return book;

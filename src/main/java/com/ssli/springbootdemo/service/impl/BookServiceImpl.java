@@ -36,4 +36,37 @@ public class BookServiceImpl implements BookService {
         }
         return book;
     }
+
+    @Override
+    public Book updateBook(Book book) {
+        Book existingBook = bookMapper.selectById(book.getId());
+        if (existingBook == null) {
+            throw new BusinessException(4004, "图书不存在");
+        }
+
+        if (!existingBook.getName().equals(book.getName())) {
+            Book duplicateBook = bookMapper.selectByName(book.getName());
+            if (duplicateBook != null) {
+                throw new BusinessException(4001, "图书名称已存在");
+            }
+        }
+        int rows = bookMapper.updateById(book);
+        if (rows != 1) {
+            throw new BusinessException(5002, "图书修改失败");
+        }
+
+        return bookMapper.selectById(book.getId());
+    }
+
+    @Override
+    public void deleteBookById(Long id) {
+        Book existingBook = bookMapper.selectById(id);
+        if (existingBook == null) {
+            throw new BusinessException(4004, "图书不存在");
+        }
+        int rows = bookMapper.deleteById(id);
+        if (rows != 1) {
+            throw new BusinessException(5003, "图书删除失败");
+        }
+    }
 }
