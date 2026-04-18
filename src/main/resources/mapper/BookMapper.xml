@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.ssli.springbootdemo.mapper.BookMapper">
+    <select id = "selectById" resultType="com.ssli.springbootdemo.entity.Book">
+        select * from book where id = #{id}
+    </select>
+
+    <select id="selectByName" resultType="com.ssli.springbootdemo.entity.Book">
+        select id, name, price
+        from book
+        where name = #{name}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into book(name, price)
+        values (#{name}, #{price})
+    </insert>
+</mapper>
+

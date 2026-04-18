@@ -29,17 +29,11 @@ public class BookController {
     @PostMapping("/create")
     public Result<BookVO> create(@Valid @RequestBody BookCreateDTO dto) {
 
-        Book book = new Book();
-        book.setName(dto.getName());
-        book.setPrice(dto.getPrice());
 
-        Book createdBook = bookService.createBook(book);
 
-        BookVO vo = new BookVO(
-                createdBook.getId(),
-                createdBook.getName(),
-                createdBook.getPrice() + "元"
-        );
+        Book createdBook = bookService.createBook(toEntity(dto));
+
+        BookVO vo = toVO(createdBook);
 
         return Result.success("创建成功", vo);
     }
@@ -47,9 +41,20 @@ public class BookController {
     @GetMapping("/query/{id}")
     public Result<BookVO> queryById(@PathVariable Long id) {
         Book book =  bookService.getBookById(id);
-        BookVO vo = new BookVO(book.getId(), book.getName(), book.getPrice() + "元");
+        BookVO vo = toVO(book);
         return Result.success(vo);
 
+    }
+
+    private Book toEntity(BookCreateDTO dto) {
+        Book book = new Book();
+        book.setName(dto.getName());
+        book.setPrice(dto.getPrice());
+        return book;
+    }
+
+    private BookVO toVO(Book book) {
+        return new BookVO(book.getId(), book.getName(), book.getPrice() + "元");
     }
 
 }
