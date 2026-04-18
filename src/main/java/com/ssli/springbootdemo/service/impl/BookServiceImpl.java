@@ -14,8 +14,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book createBook(Book book) {
-        if(book.getName()==null || book.getName().isBlank()){
-            throw new BusinessException(400,"book name is null");
+        if("java核心技术".equals(book.getName())){
+            throw new BusinessException(4001,"图书名称已存在");
         }
         return book;
     }
