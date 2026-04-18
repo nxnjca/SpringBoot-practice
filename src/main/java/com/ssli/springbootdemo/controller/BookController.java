@@ -1,8 +1,10 @@
 package com.ssli.springbootdemo.controller;
 
 import com.ssli.springbootdemo.common.Result;
+import com.ssli.springbootdemo.dto.BookCreateDTO;
 import com.ssli.springbootdemo.entity.Book;
 import com.ssli.springbootdemo.service.BookService;
+import com.ssli.springbootdemo.vo.BookVO;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,9 +27,10 @@ public class BookController {
     }
 
     @PostMapping("/create")
-    public Result<Book> create(@Valid @RequestBody Book book) {
-        Book book1 = bookService.createBook(book);
-        return Result.success("创建成功",book1);
+    public Result<BookVO> create(@Valid @RequestBody BookCreateDTO dto) {
+        Book book = bookService.createBook(dto);
+        BookVO vo = new BookVO(book.getId(),book.getName(),book.getPrice() + "元");
+        return Result.success("创建成功",vo);
     }
 
     @GetMapping("/query/{id}")
