@@ -30,5 +30,25 @@
         price = #{price}
         where id = #{id}
     </update>
+
+    <select id="selectList" resultType="com.ssli.springbootdemo.entity.Book">
+        select id, name, price
+        from book
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat('%', #{name}, '%')
+            </if>
+            <if test="minPrice != null">
+                and price <![CDATA[ >= ]]> #{minPrice}
+            </if>
+            <if test="maxPrice != null">
+                and price <![CDATA[ <= ]]> #{maxPrice}
+            </if>
+        </where>
+        order by id desc
+        <if test="offset != null and pageSize != null">
+            limit #{offset}, #{pageSize}
+        </if>
+    </select>
 </mapper>
 

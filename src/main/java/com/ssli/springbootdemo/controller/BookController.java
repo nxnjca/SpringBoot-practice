@@ -2,6 +2,7 @@ package com.ssli.springbootdemo.controller;
 
 import com.ssli.springbootdemo.common.Result;
 import com.ssli.springbootdemo.dto.BookCreateDTO;
+import com.ssli.springbootdemo.dto.BookQueryDTO;
 import com.ssli.springbootdemo.dto.BookUpdateDTO;
 import com.ssli.springbootdemo.entity.Book;
 import com.ssli.springbootdemo.service.BookService;
@@ -9,7 +10,8 @@ import com.ssli.springbootdemo.vo.BookVO;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
-
+import java.util.List;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/book")
@@ -64,6 +66,20 @@ public class BookController {
         Book book =  bookService.getBookById(id);
         BookVO vo = toVO(book);
         return Result.success(vo);
+
+    }
+
+    @GetMapping("/list")
+    public Result<List<BookVO>> list(BookQueryDTO dto) {
+        int pageNum = dto.getPageNum() == null ? 1 : dto.getPageNum();
+        int pageSize = dto.getPageSize() == null ? 10 : dto.getPageSize();
+        int offset = (pageNum - 1) * pageSize;
+        dto.setPageNum(pageNum);
+        dto.setPageSize(pageSize);
+        dto.setOffset(offset);
+        List<Book> books = bookService.listBooks(dto);
+        List<BookVO> list = books.stream().map(this::toVO).toList();
+        return Result.success(list);
 
     }
 

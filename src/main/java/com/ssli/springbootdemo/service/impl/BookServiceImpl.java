@@ -1,11 +1,14 @@
 package com.ssli.springbootdemo.service.impl;
 
 
+import com.ssli.springbootdemo.dto.BookQueryDTO;
 import com.ssli.springbootdemo.entity.Book;
 import com.ssli.springbootdemo.exception.BusinessException;
 import com.ssli.springbootdemo.mapper.BookMapper;
 import com.ssli.springbootdemo.service.BookService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -68,5 +71,11 @@ public class BookServiceImpl implements BookService {
         if (rows != 1) {
             throw new BusinessException(5003, "图书删除失败");
         }
+    }
+
+    @Override
+    public List<Book> listBooks(BookQueryDTO dto) {
+        return bookMapper.selectList(dto);
+
     }
 }
